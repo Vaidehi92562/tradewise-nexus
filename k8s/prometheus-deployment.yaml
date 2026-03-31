@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tradewisenexus-prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tradewisenexus-prometheus
+  template:
+    metadata:
+      labels:
+        app: tradewisenexus-prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yml
+      volumes:
+        - name: prometheus-config-volume
+          configMap:
+            name: tradewisenexus-prometheus-config

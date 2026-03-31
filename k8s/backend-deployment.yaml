@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tradewisenexus-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tradewisenexus-backend
+  template:
+    metadata:
+      labels:
+        app: tradewisenexus-backend
+    spec:
+      containers:
+        - name: backend
+          image: tradewise-nexus-tradewisenexus-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8087
+          env:
+            - name: SERVER_PORT
+              value: "8087"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://tradewisenexus-mysql-service:3306/tradewisenexusdb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: Vaidehi@123
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: update

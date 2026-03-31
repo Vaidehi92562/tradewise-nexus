@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tradewisenexus-grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tradewisenexus-grafana
+  template:
+    metadata:
+      labels:
+        app: tradewisenexus-grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: admin
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: admin123
