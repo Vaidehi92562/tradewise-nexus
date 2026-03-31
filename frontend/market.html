@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TradeWise Nexus | Market</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Inter, Arial, sans-serif; }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.08), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.10), transparent 28%),
+        linear-gradient(135deg, #06101d 0%, #081221 42%, #0b1424 100%);
+      color: #f8fafc;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: rgba(5, 10, 20, 0.92);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      backdrop-filter: blur(10px);
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .brand-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #22c55e, #3b82f6);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(34,197,94,0.24);
+    }
+
+    .brand-text h1 {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .brand-text p {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .profile-card {
+      padding: 18px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(17, 28, 52, 0.96), rgba(11, 67, 48, 0.86));
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 18px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.18);
+    }
+
+    .profile-card small {
+      display: block;
+      color: #cbd5e1;
+      font-size: 11px;
+      margin-bottom: 8px;
+      letter-spacing: 0.4px;
+    }
+
+    .profile-card h2 {
+      font-size: 28px;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .profile-card p {
+      color: #dbeafe;
+      font-size: 13px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .nav-title {
+      color: #64748b;
+      font-size: 12px;
+      margin: 14px 0 12px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+      color: #e2e8f0;
+      padding: 16px 18px;
+      border-radius: 18px;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.06);
+      transform: translateX(2px);
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(59, 130, 246, 0.18));
+      border-color: rgba(110, 231, 183, 0.20);
+      color: #ffffff;
+      box-shadow: 0 10px 24px rgba(34,197,94,0.10);
+    }
+
+    .logout-btn {
+      margin-top: 18px;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      border-radius: 18px;
+      padding: 15px 18px;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .main {
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .topbar-left h3 {
+      font-size: 34px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+      letter-spacing: -0.8px;
+    }
+
+    .topbar-left p {
+      color: #94a3b8;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.10);
+      border: 1px solid rgba(74, 222, 128, 0.18);
+      color: #bbf7d0;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .live-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 14px rgba(34,197,94,0.8);
+      animation: pulse 1.4s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.6; }
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .panel {
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.04);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.16);
+      backdrop-filter: blur(8px);
+    }
+
+    .left-panel {
+      padding: 26px;
+      background:
+        radial-gradient(circle at top right, rgba(59,130,246,0.10), transparent 22%),
+        linear-gradient(135deg, rgba(13, 22, 39, 0.98), rgba(11, 20, 37, 0.96));
+    }
+
+    .left-panel h1 {
+      font-size: 40px;
+      line-height: 1.08;
+      margin-bottom: 12px;
+      letter-spacing: -0.8px;
+    }
+
+    .left-panel p {
+      color: #cbd5e1;
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .metric-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .metric-card small {
+      display: block;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .metric-card strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .metric-card span {
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .right-panel {
+      min-height: 520px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(to top, rgba(4, 10, 22, 0.62), rgba(4, 10, 22, 0.14)),
+        url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: flex-end;
+      padding: 34px;
+    }
+
+    .right-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(4,10,22,0.08), rgba(4,10,22,0.80)),
+        radial-gradient(circle at top right, rgba(59,130,246,0.12), transparent 24%);
+    }
+
+    .right-content {
+      position: relative;
+      z-index: 2;
+      max-width: 520px;
+    }
+
+    .right-tag {
+      display: inline-flex;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+      font-size: 13px;
+      font-weight: 800;
+      color: #dbeafe;
+      margin-bottom: 14px;
+    }
+
+    .right-content h2 {
+      font-size: 40px;
+      margin-bottom: 12px;
+      line-height: 1.08;
+    }
+
+    .right-content p {
+      color: #dbeafe;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .market-panel {
+      padding: 22px;
+    }
+
+    .market-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .market-header h4 {
+      font-size: 24px;
+    }
+
+    .market-header span {
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .message {
+      min-height: 20px;
+      margin-bottom: 14px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .stock-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stock-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .stock-main h5 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .stock-main p {
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .stock-price {
+      text-align: right;
+    }
+
+    .stock-price strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .stock-price span {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .qty-input {
+      width: 90px;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(8,15,28,0.92);
+      color: white;
+      outline: none;
+      font-size: 13px;
+    }
+
+    .buy-btn, .sell-btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      color: white;
+    }
+
+    .buy-btn {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #03210f;
+    }
+
+    .sell-btn {
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+    }
+
+    .green { color: #86efac; }
+    .red { color: #fca5a5; }
+
+    @media (max-width: 1280px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        height: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .main {
+        padding: 16px;
+      }
+
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .left-panel h1,
+      .right-content h2 {
+        font-size: 30px;
+      }
+
+      .topbar-left h3 {
+        font-size: 28px;
+      }
+
+      .right-panel {
+        min-height: 380px;
+      }
+
+      .stock-card {
+        grid-template-columns: 1fr;
+      }
+
+      .stock-price {
+        text-align: left;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div>
+        <div class="brand-wrap">
+          <div class="brand-badge">TN</div>
+          <div class="brand-text">
+            <h1>TradeWise Nexus</h1>
+            <p>Live paper trading</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <small>Logged in as</small>
+          <h2 id="userName">Trader</h2>
+          <p id="userEmail">user@email.com</p>
+        </div>
+
+        <div class="nav-title">Navigation</div>
+
+        <div class="nav-list">
+          <button class="nav-btn" onclick="goToPage('dashboard.html')">Dashboard</button>
+          <button class="nav-btn active" onclick="goToPage('market.html')">Market</button>
+          <button class="nav-btn" onclick="goToPage('portfolio.html')">Portfolio</button>
+          <button class="nav-btn" onclick="goToPage('watchlist.html')">Watchlist</button>
+          <button class="nav-btn" onclick="goToPage('transactions.html')">Transactions</button>
+          <button class="nav-btn" onclick="goToPage('live-track.html')">Live Track</button>
+          <button class="nav-btn" onclick="goToPage('funds.html')">Funds</button>
+        </div>
+      </div>
+
+      <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <h3>Market</h3>
+          <p>
+            Browse live-simulated stocks, monitor price movement, and execute paper buy/sell actions instantly.
+          </p>
+        </div>
+
+        <div class="live-pill">
+          <div class="live-dot"></div>
+          Live market refresh active
+        </div>
+      </div>
+
+      <section class="hero">
+        <div class="panel left-panel">
+          <h1>Trade with live-simulated stock movement.</h1>
+          <p>
+            Prices are updated from the backend continuously. Use your wallet balance to buy,
+            manage positions, and test decisions in a realistic paper trading environment.
+          </p>
+
+          <div class="metric-grid">
+            <div class="metric-card">
+              <small>Wallet Balance</small>
+              <strong id="walletBalance">₹0.00</strong>
+              <span>Available virtual capital for buying stocks.</span>
+            </div>
+
+            <div class="metric-card">
+              <small>Stocks Available</small>
+              <strong id="stockCount">0</strong>
+              <span>Live-simulated stocks available for trading.</span>
+            </div>
+
+            <div class="metric-card">
+              <small>Top Symbol</small>
+              <strong id="topSymbol">--</strong>
+              <span id="topMove">--</span>
+            </div>
+
+            <div class="metric-card">
+              <small>Refresh Cycle</small>
+              <strong>2 Seconds</strong>
+              <span>Frontend keeps syncing with backend stock updates.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel right-panel">
+          <div class="right-content">
+            <div class="right-tag">Buy • Sell • Observe</div>
+            <h2>One market page. Real backend actions.</h2>
+            <p>
+              Use quantity inputs to buy or sell stocks directly from the market.
+              All actions affect your wallet, portfolio, and transaction history immediately.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel market-panel">
+        <div class="market-header">
+          <div>
+            <h4>Live Market Stocks</h4>
+            <span>Direct backend trading integration</span>
+          </div>
+        </div>
+
+        <div id="messageBox" class="message"></div>
+        <div class="stock-grid" id="stockGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const API_BASE_URL = "http://localhost:8087/api";
+    let stocks = [];
+
+    function goToPage(page) {
+      window.location.href = page;
+    }
+
+    function getUserId() {
+      return localStorage.getItem("tradewisenexus_user_id");
+    }
+
+    function loadUser() {
+      const storedName = localStorage.getItem("tradewisenexus_user_name") || "Trader";
+      const storedEmail = localStorage.getItem("tradewisenexus_user_email") || "user@email.com";
+      document.getElementById("userName").textContent = storedName;
+      document.getElementById("userEmail").textContent = storedEmail;
+    }
+
+    function formatINR(value) {
+      return "₹" + Number(value || 0).toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function showMessage(text, color) {
+      const box = document.getElementById("messageBox");
+      box.textContent = text;
+      box.style.color = color;
+    }
+
+    async function loadWallet() {
+      const userId = getUserId();
+      if (!userId) return;
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/wallet/${userId}`);
+        const data = await response.json();
+        if (response.ok) {
+          document.getElementById("walletBalance").textContent = formatINR(data.balance);
+        }
+      } catch (_) {}
+    }
+
+    async function loadStocks() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/stocks`);
+        const data = await response.json();
+        if (!response.ok || !Array.isArray(data)) return;
+
+        stocks = data;
+        renderStocks();
+      } catch (_) {}
+    }
+
+    function renderStocks() {
+      const grid = document.getElementById("stockGrid");
+      grid.innerHTML = "";
+
+      document.getElementById("stockCount").textContent = stocks.length;
+
+      if (!stocks.length) {
+        document.getElementById("topSymbol").textContent = "--";
+        document.getElementById("topMove").textContent = "--";
+        grid.innerHTML = `<div class="stock-card"><div class="stock-main"><h5>No data</h5><p>Stocks not available.</p></div></div>`;
+        return;
+      }
+
+      const top = [...stocks].sort((a, b) => Number(b.changePercent) - Number(a.changePercent))[0];
+      document.getElementById("topSymbol").textContent = top.symbol;
+      document.getElementById("topMove").textContent = `${Number(top.changePercent) >= 0 ? "+" : ""}${Number(top.changePercent || 0).toFixed(2)}%`;
+      document.getElementById("topMove").className = Number(top.changePercent) >= 0 ? "green" : "red";
+
+      stocks.forEach(stock => {
+        const card = document.createElement("div");
+        card.className = "stock-card";
+
+        card.innerHTML = `
+          <div class="stock-main">
+            <h5>${stock.symbol}</h5>
+            <p>${stock.companyName}</p>
+          </div>
+          <div class="stock-price">
+            <strong>${formatINR(stock.currentPrice)}</strong>
+            <span class="${Number(stock.changePercent) >= 0 ? "green" : "red"}">
+              ${Number(stock.changePercent) >= 0 ? "+" : ""}${Number(stock.changePercent || 0).toFixed(2)}%
+            </span>
+          </div>
+          <div class="actions">
+            <input class="qty-input" type="number" min="1" value="1" id="qty-${stock.symbol}" />
+            <button class="buy-btn" onclick="buyStock('${stock.symbol}')">Buy</button>
+            <button class="sell-btn" onclick="sellStock('${stock.symbol}')">Sell</button>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    async function buyStock(symbol) {
+      const userId = getUserId();
+      const qty = Number(document.getElementById(`qty-${symbol}`).value);
+
+      if (!userId) {
+        showMessage("No logged in user found. Please login again.", "#fca5a5");
+        return;
+      }
+
+      if (!qty || qty <= 0) {
+        showMessage("Please enter a valid quantity.", "#fca5a5");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/trade/buy`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: Number(userId),
+            symbol: symbol,
+            quantity: qty
+          })
+        });
+
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          throw new Error(data?.message || "Buy request failed.");
+        }
+
+        showMessage(data?.message || `${symbol} bought successfully.`, "#86efac");
+        await loadWallet();
+        await loadStocks();
+      } catch (error) {
+        showMessage(error.message || "Buy request failed.", "#fca5a5");
+      }
+    }
+
+    async function sellStock(symbol) {
+      const userId = getUserId();
+      const qty = Number(document.getElementById(`qty-${symbol}`).value);
+
+      if (!userId) {
+        showMessage("No logged in user found. Please login again.", "#fca5a5");
+        return;
+      }
+
+      if (!qty || qty <= 0) {
+        showMessage("Please enter a valid quantity.", "#fca5a5");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/trade/sell`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: Number(userId),
+            symbol: symbol,
+            quantity: qty
+          })
+        });
+
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          throw new Error(data?.message || "Sell request failed.");
+        }
+
+        showMessage(data?.message || `${symbol} sold successfully.`, "#86efac");
+        await loadWallet();
+        await loadStocks();
+      } catch (error) {
+        showMessage(error.message || "Sell request failed.", "#fca5a5");
+      }
+    }
+
+    function logoutUser() {
+      localStorage.removeItem("tradewisenexus_logged_in");
+      localStorage.removeItem("tradewisenexus_user_id");
+      localStorage.removeItem("tradewisenexus_user_name");
+      localStorage.removeItem("tradewisenexus_user_email");
+      window.location.href = "login.html";
+    }
+
+    window.addEventListener("DOMContentLoaded", async function () {
+      const loggedIn = localStorage.getItem("tradewisenexus_logged_in");
+      if (!loggedIn) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      loadUser();
+      await loadWallet();
+      await loadStocks();
+
+      setInterval(async () => {
+        await loadWallet();
+        await loadStocks();
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

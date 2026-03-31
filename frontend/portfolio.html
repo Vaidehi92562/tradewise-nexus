@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TradeWise Nexus | Portfolio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Inter, Arial, sans-serif; }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.08), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.10), transparent 28%),
+        linear-gradient(135deg, #06101d 0%, #081221 42%, #0b1424 100%);
+      color: #f8fafc;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: rgba(5, 10, 20, 0.92);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      backdrop-filter: blur(10px);
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .brand-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #22c55e, #3b82f6);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(34,197,94,0.24);
+    }
+
+    .brand-text h1 {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .brand-text p {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .profile-card {
+      padding: 18px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(17, 28, 52, 0.96), rgba(11, 67, 48, 0.86));
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 18px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.18);
+    }
+
+    .profile-card small {
+      display: block;
+      color: #cbd5e1;
+      font-size: 11px;
+      margin-bottom: 8px;
+      letter-spacing: 0.4px;
+    }
+
+    .profile-card h2 {
+      font-size: 28px;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .profile-card p {
+      color: #dbeafe;
+      font-size: 13px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .nav-title {
+      color: #64748b;
+      font-size: 12px;
+      margin: 14px 0 12px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+      color: #e2e8f0;
+      padding: 16px 18px;
+      border-radius: 18px;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.06);
+      transform: translateX(2px);
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(59, 130, 246, 0.18));
+      border-color: rgba(110, 231, 183, 0.20);
+      color: #ffffff;
+      box-shadow: 0 10px 24px rgba(34,197,94,0.10);
+    }
+
+    .logout-btn {
+      margin-top: 18px;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      border-radius: 18px;
+      padding: 15px 18px;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .main {
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .topbar-left h3 {
+      font-size: 34px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+      letter-spacing: -0.8px;
+    }
+
+    .topbar-left p {
+      color: #94a3b8;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.10);
+      border: 1px solid rgba(74, 222, 128, 0.18);
+      color: #bbf7d0;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .panel {
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.04);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.16);
+      backdrop-filter: blur(8px);
+    }
+
+    .summary-panel {
+      padding: 26px;
+      margin-bottom: 18px;
+      background:
+        radial-gradient(circle at top right, rgba(59,130,246,0.10), transparent 22%),
+        linear-gradient(135deg, rgba(13, 22, 39, 0.98), rgba(11, 20, 37, 0.96));
+    }
+
+    .summary-panel h1 {
+      font-size: 40px;
+      line-height: 1.08;
+      margin-bottom: 12px;
+      letter-spacing: -0.8px;
+    }
+
+    .summary-panel p {
+      color: #cbd5e1;
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .metric-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .metric-card small {
+      display: block;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .metric-card strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .metric-card span {
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .holdings-panel {
+      padding: 22px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .panel-header h4 {
+      font-size: 24px;
+    }
+
+    .panel-header span {
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .holdings-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .holding-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .holding-main h5 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .holding-main p {
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .holding-value {
+      text-align: right;
+    }
+
+    .holding-value strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .holding-value span {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .green { color: #86efac; }
+    .red { color: #fca5a5; }
+
+    .empty {
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #cbd5e1;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 1100px) {
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        height: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .main {
+        padding: 16px;
+      }
+
+      .summary-panel h1 {
+        font-size: 30px;
+      }
+
+      .topbar-left h3 {
+        font-size: 28px;
+      }
+
+      .holding-card {
+        grid-template-columns: 1fr;
+      }
+
+      .holding-value {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div>
+        <div class="brand-wrap">
+          <div class="brand-badge">TN</div>
+          <div class="brand-text">
+            <h1>TradeWise Nexus</h1>
+            <p>Live paper trading</p>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <small>Logged in as</small>
+          <h2 id="userName">Trader</h2>
+          <p id="userEmail">user@email.com</p>
+        </div>
+
+        <div class="nav-title">Navigation</div>
+
+        <div class="nav-list">
+          <button class="nav-btn" onclick="goToPage('dashboard.html')">Dashboard</button>
+          <button class="nav-btn" onclick="goToPage('market.html')">Market</button>
+          <button class="nav-btn active" onclick="goToPage('portfolio.html')">Portfolio</button>
+          <button class="nav-btn" onclick="goToPage('watchlist.html')">Watchlist</button>
+          <button class="nav-btn" onclick="goToPage('transactions.html')">Transactions</button>
+          <button class="nav-btn" onclick="goToPage('live-track.html')">Live Track</button>
+          <button class="nav-btn" onclick="goToPage('funds.html')">Funds</button>
+        </div>
+      </div>
+
+      <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <h3>Portfolio</h3>
+          <p>
+            View your holdings, live current value, invested amount, and real-time profit or loss.
+          </p>
+        </div>
+
+        <div class="live-pill">Live portfolio sync active</div>
+      </div>
+
+      <section class="panel summary-panel">
+        <h1>Your portfolio reflects every trade you make.</h1>
+        <p>
+          The portfolio is connected directly to your buy and sell activity. As stock prices change,
+          the current value and profit/loss update automatically.
+        </p>
+
+        <div class="metric-grid">
+          <div class="metric-card">
+            <small>Total Invested</small>
+            <strong id="totalInvested">₹0.00</strong>
+            <span>Total amount invested across all active holdings.</span>
+          </div>
+
+          <div class="metric-card">
+            <small>Current Value</small>
+            <strong id="currentValue">₹0.00</strong>
+            <span>Live value of all holdings at current market price.</span>
+          </div>
+
+          <div class="metric-card">
+            <small>Profit / Loss</small>
+            <strong id="totalPnl">₹0.00</strong>
+            <span id="pnlText">Calculated in real time from simulated stock movement.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel holdings-panel">
+        <div class="panel-header">
+          <div>
+            <h4>Your Holdings</h4>
+            <span>Backend-connected active positions</span>
+          </div>
+        </div>
+
+        <div class="holdings-grid" id="holdingsGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const API_BASE_URL = "http://localhost:8087/api";
+
+    function goToPage(page) {
+      window.location.href = page;
+    }
+
+    function getUserId() {
+      return localStorage.getItem("tradewisenexus_user_id");
+    }
+
+    function loadUser() {
+      const storedName = localStorage.getItem("tradewisenexus_user_name") || "Trader";
+      const storedEmail = localStorage.getItem("tradewisenexus_user_email") || "user@email.com";
+      document.getElementById("userName").textContent = storedName;
+      document.getElementById("userEmail").textContent = storedEmail;
+    }
+
+    function formatINR(value) {
+      return "₹" + Number(value || 0).toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    async function loadPortfolio() {
+      const userId = getUserId();
+      if (!userId) return;
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/portfolio/${userId}`);
+        const data = await response.json();
+        const grid = document.getElementById("holdingsGrid");
+        grid.innerHTML = "";
+
+        if (!response.ok) {
+          grid.innerHTML = `<div class="empty">Unable to load portfolio.</div>`;
+          return;
+        }
+
+        document.getElementById("totalInvested").textContent = formatINR(data.totalInvested);
+        document.getElementById("currentValue").textContent = formatINR(data.currentValue);
+        document.getElementById("totalPnl").textContent = formatINR(data.totalProfitLoss);
+
+        const pnlEl = document.getElementById("totalPnl");
+        const pnlText = document.getElementById("pnlText");
+        if (Number(data.totalProfitLoss) >= 0) {
+          pnlEl.className = "green";
+          pnlText.textContent = "Your overall portfolio is currently in profit.";
+        } else {
+          pnlEl.className = "red";
+          pnlText.textContent = "Your overall portfolio is currently in loss.";
+        }
+
+        if (!data.holdings || !data.holdings.length) {
+          grid.innerHTML = `<div class="empty">No holdings yet. Buy stocks from the market page to build your portfolio.</div>`;
+          return;
+        }
+
+        data.holdings.forEach(item => {
+          const card = document.createElement("div");
+          card.className = "holding-card";
+          card.innerHTML = `
+            <div class="holding-main">
+              <h5>${item.stockSymbol}</h5>
+              <p>
+                Qty: ${item.quantity}<br>
+                Avg Buy: ${formatINR(item.averageBuyPrice)}<br>
+                Current Price: ${formatINR(item.currentPrice)}
+              </p>
+            </div>
+            <div class="holding-value">
+              <strong>${formatINR(item.currentValue)}</strong>
+              <span class="${Number(item.profitLoss) >= 0 ? 'green' : 'red'}">
+                ${Number(item.profitLoss) >= 0 ? '+' : ''}${formatINR(Math.abs(item.profitLoss))}
+              </span>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (_) {
+        document.getElementById("holdingsGrid").innerHTML = `<div class="empty">Unable to load portfolio.</div>`;
+      }
+    }
+
+    function logoutUser() {
+      localStorage.removeItem("tradewisenexus_logged_in");
+      localStorage.removeItem("tradewisenexus_user_id");
+      localStorage.removeItem("tradewisenexus_user_name");
+      localStorage.removeItem("tradewisenexus_user_email");
+      window.location.href = "login.html";
+    }
+
+    window.addEventListener("DOMContentLoaded", async function () {
+      const loggedIn = localStorage.getItem("tradewisenexus_logged_in");
+      if (!loggedIn) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      loadUser();
+      await loadPortfolio();
+
+      setInterval(async () => {
+        await loadPortfolio();
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

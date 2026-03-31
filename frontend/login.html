@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TradeWise Nexus | Login</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Inter, Arial, sans-serif; }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(34,197,94,0.08), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(59,130,246,0.10), transparent 28%),
+        linear-gradient(135deg, #06101d 0%, #081221 42%, #0b1424 100%);
+      color: #f8fafc;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .wrap {
+      width: min(1120px, 100%);
+      min-height: 700px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-radius: 34px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 18px 42px rgba(0,0,0,0.20);
+      backdrop-filter: blur(10px);
+    }
+
+    .left {
+      position: relative;
+      background:
+        linear-gradient(to top, rgba(4,10,22,0.68), rgba(4,10,22,0.18)),
+        url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      padding: 34px;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .left::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(4,10,22,0.12), rgba(4,10,22,0.82)),
+        radial-gradient(circle at top right, rgba(59,130,246,0.12), transparent 24%);
+    }
+
+    .left-content {
+      position: relative;
+      z-index: 2;
+      max-width: 500px;
+    }
+
+    .left-tag {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: #dbeafe;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .left h1 {
+      font-size: 42px;
+      line-height: 1.08;
+      margin-bottom: 14px;
+    }
+
+    .left p {
+      color: #dbeafe;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .right {
+      padding: 42px 36px;
+      background:
+        radial-gradient(circle at top right, rgba(59,130,246,0.10), transparent 24%),
+        linear-gradient(135deg, rgba(9, 18, 33, 0.98), rgba(10, 20, 36, 0.95));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-card {
+      width: min(440px, 100%);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #22c55e, #3b82f6);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(34,197,94,0.20);
+    }
+
+    .brand h2 {
+      font-size: 24px;
+    }
+
+    .brand p {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .heading {
+      margin-bottom: 22px;
+    }
+
+    .heading h3 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .heading span {
+      color: #94a3b8;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #dbeafe;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(8, 15, 28, 0.92);
+      color: white;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input::placeholder {
+      color: #94a3b8;
+    }
+
+    .message {
+      min-height: 20px;
+      margin-bottom: 14px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 15px 18px;
+      font-size: 15px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #05230f;
+      transition: 0.25s ease;
+      margin-top: 6px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .footer-link {
+      margin-top: 18px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .footer-link a {
+      color: #86efac;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .left {
+        min-height: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="left">
+      <div class="left-content">
+        <div class="left-tag">Welcome back to your trading workspace</div>
+        <h1>Login and continue your live paper trading journey.</h1>
+        <p>
+          Access your dashboard, wallet, portfolio, transactions, and watchlist
+          with real backend integration and live-simulated stock movement.
+        </p>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="form-card">
+        <div class="brand">
+          <div class="badge">TN</div>
+          <div>
+            <h2>TradeWise Nexus</h2>
+            <p>Paper trading with DevOps integration</p>
+          </div>
+        </div>
+
+        <div class="heading">
+          <h3>Login</h3>
+          <span>Enter your email and password to access your account.</span>
+        </div>
+
+        <div id="messageBox" class="message"></div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="Enter your email" />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="Enter your password" />
+        </div>
+
+        <button class="btn" onclick="loginUser()">Login</button>
+
+        <div class="footer-link">
+          New here? <a href="register.html">Create an account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE_URL = "http://localhost:8087/api";
+
+    function showMessage(text, color) {
+      const box = document.getElementById("messageBox");
+      box.textContent = text;
+      box.style.color = color;
+    }
+
+    async function loginUser() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        showMessage("Please fill all fields.", "#fca5a5");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          throw new Error(data?.message || "Login failed.");
+        }
+
+        localStorage.setItem("tradewisenexus_user_id", data.userId);
+        localStorage.setItem("tradewisenexus_user_name", data.name);
+        localStorage.setItem("tradewisenexus_user_email", data.email);
+        localStorage.setItem("tradewisenexus_logged_in", "true");
+
+        showMessage("Login successful. Redirecting...", "#86efac");
+
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 1000);
+      } catch (error) {
+        showMessage(error.message || "Login failed.", "#fca5a5");
+      }
+    }
+  </script>
+</body>
+</html>
